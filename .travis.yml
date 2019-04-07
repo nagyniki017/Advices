@@ -38,6 +38,6 @@ deploy:
 notifications:
     email:
       recipients:
-      - taszilvo@gmail.com
+      - nagyniki.hu@gmail.com
       on_success: always
       on_failure: always
