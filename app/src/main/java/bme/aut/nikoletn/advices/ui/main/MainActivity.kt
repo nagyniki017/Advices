@@ -11,6 +11,7 @@ import android.view.MenuItem
 import bme.aut.nikoletn.advices.R
 import bme.aut.nikoletn.advices.injector
 import bme.aut.nikoletn.advices.model.Advice
+import bme.aut.nikoletn.advices.ui.randomAdvices.RandomAdviceFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
@@ -25,13 +26,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         injector.inject(this)
 
-        /*
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-        */
-
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar,
             R.string.navigation_drawer_open,
@@ -42,6 +36,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_random)    // setting the selected menu
+        this.showRandomAdvices()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mainPresenter.attachScreen(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mainPresenter.detachScreen()
     }
 
     override fun onBackPressed() {
@@ -72,10 +77,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_random -> {
-                // Handle the camera action
+                this.showRandomAdvices()
             }
             R.id.nav_saved -> {
-
+                this.showSavedAdvices()
             }
         }
 
@@ -83,7 +88,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun showAdvices(advices: List<Advice>?) {
-
+    override fun showRandomAdvices() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.dynamic_fragment_frame_layout, RandomAdviceFragment.newInstance(), "rageComicList")
+            .commit()
     }
+
+    override fun showSavedAdvices() {
+        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }
