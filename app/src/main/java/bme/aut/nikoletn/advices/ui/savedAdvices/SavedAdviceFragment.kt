@@ -50,7 +50,9 @@ class SavedAdviceFragment : Fragment(), SavedAdviceScreen {
         saved_advices.adapter = savedAdviceAdapter
 
         add_fab.setOnClickListener { v ->
-            AddAdviceDialogFragment().show(fragmentManager, "ADD_ADVICE")
+            val addAdviceDialogFragment = AddAdviceDialogFragment()
+            addAdviceDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog)
+            addAdviceDialogFragment.show(fragmentManager, "ADD_ADVICE")
         }
     }
 
