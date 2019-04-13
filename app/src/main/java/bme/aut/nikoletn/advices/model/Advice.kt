@@ -8,4 +8,6 @@ class Advice {
 
     @SerializedName("slip_id")
     var id: Int? = null
+
+    var rating: Float? = null
 }

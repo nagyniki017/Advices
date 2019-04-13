@@ -6,7 +6,10 @@ import org.greenrobot.eventbus.EventBus
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
-class SavedAdvicePresenter @Inject constructor(private val executor: Executor, private val advicesInteractor: AdvicesInteractor) : Presenter<SavedAdviceScreen>() {
+class SavedAdvicePresenter @Inject constructor(
+    private val executor: Executor,
+    private val advicesInteractor: AdvicesInteractor
+) : Presenter<SavedAdviceScreen>() {
     override fun attachScreen(screen: SavedAdviceScreen) {
         super.attachScreen(screen)
         // EventBus.getDefault().register(this) // @Subscribe is needed for it
