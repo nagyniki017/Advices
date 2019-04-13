@@ -2,12 +2,12 @@ package bme.aut.nikoletn.advices.ui.savedAdvices
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import bme.aut.nikoletn.advices.R
 import bme.aut.nikoletn.advices.injector
 import bme.aut.nikoletn.advices.ui.addAdvice.AddAdviceDialogFragment
@@ -42,18 +42,15 @@ class SavedAdviceFragment : Fragment(), SavedAdviceScreen {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val linearLayoutManager = LinearLayoutManager(context)
-        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        val linearLayoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        linearLayoutManager.orientation = RecyclerView.VERTICAL
         savedAdviceAdapter = SavedAdviceAdapter(context!!, DummyContent.ITEMS)
 
         saved_advices.layoutManager = linearLayoutManager
         saved_advices.adapter = savedAdviceAdapter
 
         add_fab.setOnClickListener { v ->
-            val fragmentManager = getFragmentManager()
-            val addAdviceDialogFragment = AddAdviceDialogFragment()
-            addAdviceDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog)
-            addAdviceDialogFragment.show(fragmentManager, "ADD_ADVICE")
+            AddAdviceDialogFragment().show(fragmentManager, "ADD_ADVICE")
         }
     }
 

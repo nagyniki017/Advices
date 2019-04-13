@@ -1,25 +1,19 @@
 package bme.aut.nikoletn.advices.ui.randomAdvices
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import bme.aut.nikoletn.advices.R
+import bme.aut.nikoletn.advices.model.Advice
 
-import bme.aut.nikoletn.advices.ui.randomAdvices.dummy.DummyContent.DummyItem
 import kotlinx.android.synthetic.main.fragment_advice.view.*
 
-class RandomAdviceAdapter(private val context: Context, private var advices: List<DummyItem>) : RecyclerView.Adapter<RandomAdviceAdapter.ViewHolder>() {
-
-    private val mOnClickListener: View.OnClickListener
-
-    init {
-        mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as DummyItem
-        }
-    }
+class RandomAdviceAdapter(private val context: Context, private var advices: List<Advice>) : RecyclerView.Adapter<RandomAdviceAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,23 +23,26 @@ class RandomAdviceAdapter(private val context: Context, private var advices: Lis
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = advices[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+        holder.adviceText.text = item.advice
+        holder.adviceRating.rating = item.rating ?: 0F
+
+        holder.adviceRating.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+            item.rating = rating
+        }
 
         with(holder.mView) {
             tag = item
-            setOnClickListener(mOnClickListener)
         }
     }
 
     override fun getItemCount(): Int = advices.size
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
-        val mContentView: TextView = mView.content
+    inner class ViewHolder(val mView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mView) {
+        val adviceText: TextView = mView.advice_text
+        val adviceRating: RatingBar = mView.advice_rating
 
         override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
+            return super.toString() + " '" + adviceText.text + "'"
         }
     }
 }

@@ -1,7 +1,7 @@
 package bme.aut.nikoletn.advices.ui.savedAdvices
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import bme.aut.nikoletn.advices.ui.savedAdvices.dummy.DummyContent.DummyItem
 
 import kotlinx.android.synthetic.main.fragment_saved_advice.view.*
 
-class SavedAdviceAdapter(private val context: Context, private var advices: List<DummyItem>) : RecyclerView.Adapter<SavedAdviceAdapter.ViewHolder>() {
+class SavedAdviceAdapter(private val context: Context, private var advices: List<DummyItem>) : androidx.recyclerview.widget.RecyclerView.Adapter<SavedAdviceAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
 
@@ -23,7 +23,7 @@ class SavedAdviceAdapter(private val context: Context, private var advices: List
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_advice, parent, false)
+            .inflate(R.layout.fragment_saved_advice, parent, false)
         return ViewHolder(view)
     }
 
@@ -40,7 +40,7 @@ class SavedAdviceAdapter(private val context: Context, private var advices: List
 
     override fun getItemCount(): Int = advices.size
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(val mView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mView) {
         val mIdView: TextView = mView.item_number
         val mContentView: TextView = mView.content
 
