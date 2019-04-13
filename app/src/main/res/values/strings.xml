@@ -6,4 +6,6 @@
     <string name="nav_header_subtitle"></string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="random_advices">Random advices</string>
+    <string name="saved_advices">Saved advices</string>
 </resources>

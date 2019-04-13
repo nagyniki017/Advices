@@ -1,7 +1,6 @@
 package bme.aut.nikoletn.advices.ui.main
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -10,8 +9,8 @@ import android.view.Menu
 import android.view.MenuItem
 import bme.aut.nikoletn.advices.R
 import bme.aut.nikoletn.advices.injector
-import bme.aut.nikoletn.advices.model.Advice
 import bme.aut.nikoletn.advices.ui.randomAdvices.RandomAdviceFragment
+import bme.aut.nikoletn.advices.ui.savedAdvices.SavedAdviceFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
@@ -19,6 +18,8 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainScreen {
     @Inject
     lateinit var mainPresenter: MainPresenter
+
+    private var attachedFragment: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +37,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_random)    // setting the selected menu
-        this.showRandomAdvices()
     }
 
     override fun onStart() {
         super.onStart()
         mainPresenter.attachScreen(this)
+        when (this.attachedFragment) {
+            "random" -> this.showRandomAdvices()
+            "saved" -> this.showSavedAdvices()
+            else -> this.showRandomAdvices()
+        }
     }
 
     override fun onStop() {
@@ -89,14 +94,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun showRandomAdvices() {
+        supportActionBar?.setTitle(R.string.random_advices)
+        this.attachedFragment = "random"
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.dynamic_fragment_frame_layout, RandomAdviceFragment.newInstance(), "rageComicList")
+            .replace(R.id.dynamic_fragment_frame_layout, RandomAdviceFragment.newInstance(), "randomAdvicesList")
             .commit()
     }
 
     override fun showSavedAdvices() {
-        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        supportActionBar?.setTitle(R.string.saved_advices)
+        this.attachedFragment = "saved"
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.dynamic_fragment_frame_layout, SavedAdviceFragment.newInstance(), "savedAdvicesList")
+            .commit()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putCharSequence("attachedFragment", this.attachedFragment)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        this.attachedFragment = savedInstanceState?.getCharSequence("attachedFragment") as String?
     }
 
 }

@@ -1,4 +1,4 @@
-package bme.aut.nikoletn.advices.ui.randomAdvices
+package bme.aut.nikoletn.advices.ui.savedAdvices
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import bme.aut.nikoletn.advices.R
+import bme.aut.nikoletn.advices.ui.savedAdvices.dummy.DummyContent.DummyItem
 
-import bme.aut.nikoletn.advices.ui.randomAdvices.dummy.DummyContent.DummyItem
-import kotlinx.android.synthetic.main.fragment_advice.view.*
+import kotlinx.android.synthetic.main.fragment_saved_advice.view.*
 
-class RandomAdviceAdapter(private val context: Context, private var advices: List<DummyItem>) : RecyclerView.Adapter<RandomAdviceAdapter.ViewHolder>() {
+class SavedAdviceAdapter(private val context: Context, private var advices: List<DummyItem>) : RecyclerView.Adapter<SavedAdviceAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
 
