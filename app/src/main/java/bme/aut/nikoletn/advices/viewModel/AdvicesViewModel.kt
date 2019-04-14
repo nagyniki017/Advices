@@ -1,5 +1,6 @@
 package bme.aut.nikoletn.advices.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,5 +22,12 @@ class AdvicesViewModel: ViewModel() {
             advices.add(advice)
             randomAdviceLiveData.value = advices
         }
+    }
+
+    fun randomAdviceRatingChanged(position: Int, newRating: Float) {
+        Log.d("ViewModel", "$position $newRating")
+        val advices: ArrayList<Advice> = ArrayList(randomAdviceLiveData.value ?: listOf())
+        val changedAdvice = advices.get(position)
+        // TODO: save to DB
     }
 }

@@ -10,10 +10,15 @@ import android.widget.RatingBar
 import android.widget.TextView
 import bme.aut.nikoletn.advices.R
 import bme.aut.nikoletn.advices.model.Advice
+import bme.aut.nikoletn.advices.viewModel.AdvicesViewModel
 
 import kotlinx.android.synthetic.main.fragment_advice.view.*
 
-class RandomAdviceAdapter(private val context: Context, private var advices: List<Advice>) : RecyclerView.Adapter<RandomAdviceAdapter.ViewHolder>() {
+class RandomAdviceAdapter(
+    private val context: Context,
+    private var advices: List<Advice>,
+    private val advicesViewModel: AdvicesViewModel
+) : RecyclerView.Adapter<RandomAdviceAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -27,7 +32,10 @@ class RandomAdviceAdapter(private val context: Context, private var advices: Lis
         holder.adviceRating.rating = item.rating ?: 0F
 
         holder.adviceRating.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-            item.rating = rating
+            if(fromUser) {
+                item.rating = rating
+                advicesViewModel.randomAdviceRatingChanged(position, rating)
+            }
         }
 
         with(holder.mView) {

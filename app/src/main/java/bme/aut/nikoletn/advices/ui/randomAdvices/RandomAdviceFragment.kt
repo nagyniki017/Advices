@@ -3,21 +3,20 @@ package bme.aut.nikoletn.advices.ui.randomAdvices
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import bme.aut.nikoletn.advices.R
 import bme.aut.nikoletn.advices.injector
 import bme.aut.nikoletn.advices.model.Advice
-
-import javax.inject.Inject
-import androidx.recyclerview.widget.RecyclerView
 import bme.aut.nikoletn.advices.viewModel.AdvicesViewModel
 import kotlinx.android.synthetic.main.fragment_advice_list.*
+import javax.inject.Inject
 
 /**
  * A fragment representing a list of Items.
@@ -63,7 +62,7 @@ class RandomAdviceFragment : Fragment(), RandomAdviceScreen {
         super.onViewCreated(view, savedInstanceState)
         val linearLayoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         linearLayoutManager.orientation = RecyclerView.VERTICAL
-        randomAdviceAdapter = RandomAdviceAdapter(context!!, displayedAdvices)
+        randomAdviceAdapter = RandomAdviceAdapter(context!!, displayedAdvices, advicesViewModel)
 
         random_advices.layoutManager = linearLayoutManager
         random_advices.adapter = randomAdviceAdapter
