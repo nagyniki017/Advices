@@ -21,6 +21,12 @@ class RandomAdvicePresenter @Inject constructor(private val executor: Executor, 
         super.detachScreen()
     }
 
+    fun getRandomAdvice() {
+        executor.execute {
+            advicesInteractor.getRandomAdvice()
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventMainThread(event: GetRandomAdviceEvent) {
         if (event.throwable != null) {
@@ -31,7 +37,7 @@ class RandomAdvicePresenter @Inject constructor(private val executor: Executor, 
         } else {
             if (screen != null) {
                 if (event.advice != null) {
-                    // TODO
+                    screen?.showAdvice(event.advice!!)
                 }
 
             }
