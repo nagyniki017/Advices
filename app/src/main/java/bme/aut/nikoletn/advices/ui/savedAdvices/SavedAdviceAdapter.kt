@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import bme.aut.nikoletn.advices.R
 import bme.aut.nikoletn.advices.model.Advice
 import bme.aut.nikoletn.advices.viewModel.AdvicesViewModel
@@ -56,6 +57,7 @@ class SavedAdviceAdapter(
         // Delete the advice if it was confirmed
         builder.setPositiveButton("YES") { dialog, which ->
             advicesViewModel.deleteAdvice(item)
+            Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show()
         }
 
         // Set the rating without deletion and update in DB
