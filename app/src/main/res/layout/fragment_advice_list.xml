@@ -24,6 +24,6 @@
             android:indeterminate="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="-6dp"
-    />
+            android:scaleY="3"/>
 
 </RelativeLayout>

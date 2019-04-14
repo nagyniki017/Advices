@@ -3,6 +3,7 @@ package bme.aut.nikoletn.advices.ui.randomAdvices
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,12 @@ class RandomAdviceFragment : Fragment(), RandomAdviceScreen {
             displayedAdvices.addAll(advices)
             randomAdviceAdapter?.notifyDataSetChanged()
         })
+
+        /*
+        advicesViewModel.getSavedAdviceLiveData().observe(this, Observer<List<Advice>> { advices ->
+            Log.d("ASD", advices.toString())
+        })
+        */
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -34,7 +34,7 @@ class RandomAdviceAdapter(
         holder.adviceRating.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             if(fromUser) {
                 item.rating = rating
-                advicesViewModel.randomAdviceRatingChanged(position, rating)
+                advicesViewModel.randomAdviceRatingChanged(position)
             }
         }
 
