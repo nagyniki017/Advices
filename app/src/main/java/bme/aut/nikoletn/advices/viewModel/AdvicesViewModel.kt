@@ -2,10 +2,7 @@ package bme.aut.nikoletn.advices.viewModel
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.*
 import bme.aut.nikoletn.advices.AppDatabase
 import bme.aut.nikoletn.advices.model.Advice
 import bme.aut.nikoletn.advices.repository.AdviceRepository
@@ -37,7 +34,7 @@ class AdvicesViewModel(application: Application): AndroidViewModel(application) 
         return randomAdviceLiveData
     }
 
-    fun getSavedAdviceLiveData() : LiveData<List<Advice>> {
+    fun getSavedAdvices() : LiveData<List<Advice>> {
         return savedAdviceLiveData
     }
 
@@ -46,6 +43,7 @@ class AdvicesViewModel(application: Application): AndroidViewModel(application) 
         val advices: ArrayList<Advice> = ArrayList(randomAdviceLiveData.value ?: listOf())
         val adviceIdx = advices.indexOfFirst { random -> random.id == advice.id } ?: -1
         if (adviceIdx == -1) {
+            setStoredRating(advice)
             advices.add(advice)
             randomAdviceLiveData.value = advices
         }
@@ -66,6 +64,13 @@ class AdvicesViewModel(application: Application): AndroidViewModel(application) 
 
     fun deleteAdvice(advice: Advice) = scope.launch(Dispatchers.IO) {
         repository.delete(advice)
+    }
+
+    private fun setStoredRating(advice: Advice) {
+        val storedMatching = savedAdviceLiveData.value?.filter { storedAdvice -> storedAdvice.id == advice.id } ?: listOf()
+        if (storedMatching.isNotEmpty()) {
+            advice.rating = storedMatching.get(0).rating
+        }
     }
 
     override fun onCleared() {
