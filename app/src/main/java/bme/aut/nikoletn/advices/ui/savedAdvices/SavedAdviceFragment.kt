@@ -45,7 +45,7 @@ class SavedAdviceFragment : Fragment(), SavedAdviceScreen {
         super.onCreate(savedInstanceState)
         advicesViewModel = ViewModelProviders.of(this.activity!!).get(AdvicesViewModel::class.java)
         displayedAdvices.addAll(advicesViewModel.getRandomAdvices().value?: listOf())
-        advicesViewModel.getSavedAdvices().observe(this, Observer<List<Advice>> { advices ->
+        advicesViewModel.getSavedAdvices().observe(this.activity!!, Observer<List<Advice>> { advices ->
             displayedAdvices.clear()
             displayedAdvices.addAll(advices.sortedWith(compareByDescending({ it.rating })))
             savedAdviceAdapter?.notifyDataSetChanged()
@@ -66,10 +66,12 @@ class SavedAdviceFragment : Fragment(), SavedAdviceScreen {
         saved_advices.adapter = savedAdviceAdapter
 
         add_fab.setOnClickListener { v ->
-            val addAdviceDialogFragment = AddAdviceDialogFragment()
-            addAdviceDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog)
-            addAdviceDialogFragment.show(fragmentManager, "ADD_ADVICE")
+            AddAdviceDialogFragment().show(fragmentManager, "ADD_ADVICE")
         }
+    }
+
+    override fun addNewAdvice(advice: Advice) {
+        advicesViewModel.insertAdvice(advice)
     }
 
     companion object {

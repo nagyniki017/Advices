@@ -48,10 +48,10 @@ class RandomAdviceFragment : Fragment(), RandomAdviceScreen {
         super.onCreate(savedInstanceState)
         advicesViewModel = ViewModelProviders.of(this.activity!!).get(AdvicesViewModel::class.java)
         displayedAdvices.addAll(advicesViewModel.getRandomAdvices().value?: listOf())
-        advicesViewModel.getSavedAdvices().observe(this, Observer<List<Advice>> { advices ->
+        advicesViewModel.getSavedAdvices().observe(this.activity!!, Observer<List<Advice>> { advices ->
             // triggering loading data from DB
         })
-        advicesViewModel.getRandomAdvices().observe(this, Observer<List<Advice>> { advices ->
+        advicesViewModel.getRandomAdvices().observe(this.activity!!, Observer<List<Advice>> { advices ->
             displayedAdvices.clear()
             displayedAdvices.addAll(advices)
             randomAdviceAdapter?.notifyDataSetChanged()

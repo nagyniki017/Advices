@@ -12,7 +12,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class AdvicesViewModel(application: Application): AndroidViewModel(application) {
+class AdvicesViewModel(application: Application) : AndroidViewModel(application) {
     private var parentJob = Job()
     private val coroutineContext: CoroutineContext
         get() = parentJob + Dispatchers.Main
@@ -34,7 +34,7 @@ class AdvicesViewModel(application: Application): AndroidViewModel(application) 
         return randomAdviceLiveData
     }
 
-    fun getSavedAdvices() : LiveData<List<Advice>> {
+    fun getSavedAdvices(): LiveData<List<Advice>> {
         return savedAdviceLiveData
     }
 
@@ -58,6 +58,11 @@ class AdvicesViewModel(application: Application): AndroidViewModel(application) 
         }
     }
 
+    fun updateStoredAdvice(advice: Advice) {
+        setRandomRating(advice)
+        insertAdvice(advice)
+    }
+
     fun insertAdvice(advice: Advice) = scope.launch(Dispatchers.IO) {
         repository.insert(advice)
     }
@@ -66,10 +71,20 @@ class AdvicesViewModel(application: Application): AndroidViewModel(application) 
         repository.delete(advice)
     }
 
-    private fun setStoredRating(advice: Advice) {
-        val storedMatching = savedAdviceLiveData.value?.filter { storedAdvice -> storedAdvice.id == advice.id } ?: listOf()
+    private fun setStoredRating(randomAdvice: Advice) {
+        val storedMatching =
+            savedAdviceLiveData.value?.filter { storedAdvice -> storedAdvice.id == randomAdvice.id } ?: listOf()
         if (storedMatching.isNotEmpty()) {
-            advice.rating = storedMatching.get(0).rating
+            randomAdvice.rating = storedMatching.get(0).rating
+        }
+    }
+
+    private fun setRandomRating(storedAdvice: Advice) {
+        val advices: ArrayList<Advice> = ArrayList(randomAdviceLiveData.value ?: listOf())
+        val adviceIdx = advices.indexOfFirst { random -> random.id == storedAdvice.id } ?: -1
+        if (adviceIdx >= 0) {
+            advices[adviceIdx] = storedAdvice
+            randomAdviceLiveData.value = advices
         }
     }
 

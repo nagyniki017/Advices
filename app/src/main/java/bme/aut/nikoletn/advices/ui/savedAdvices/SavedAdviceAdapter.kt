@@ -32,12 +32,11 @@ class SavedAdviceAdapter(
         holder.adviceText.text = item.advice
         holder.adviceRating.rating = item.rating ?: 0F
 
-        // TODO: rating change listener
         holder.adviceRating.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             if (fromUser) {
                 if (rating > 0.4) {
                     item.rating = rating
-                    advicesViewModel.insertAdvice(item)
+                    advicesViewModel.updateStoredAdvice(item)
                 } else {
                     confirmDeletion(item, rating)
                 }
@@ -59,9 +58,10 @@ class SavedAdviceAdapter(
             advicesViewModel.deleteAdvice(item)
         }
 
-        // Set the rating without deletion
+        // Set the rating without deletion and update in DB
         builder.setNegativeButton("No") { dialog, which ->
             item.rating = rating
+            advicesViewModel.updateStoredAdvice(item)
         }
 
         val dialog: AlertDialog = builder.create()
