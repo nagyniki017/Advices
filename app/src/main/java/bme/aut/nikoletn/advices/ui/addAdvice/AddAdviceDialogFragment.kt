@@ -4,11 +4,12 @@ package bme.aut.nikoletn.advices.ui.addAdvice
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import bme.aut.nikoletn.advices.R
 import bme.aut.nikoletn.advices.injector
@@ -37,8 +38,12 @@ class AddAdviceDialogFragment : DialogFragment(), AddAdviceScreen {
             val newAdvice = Advice()
             newAdvice.advice = new_advice.text.toString()
             newAdvice.rating = advice_rating.rating
-            Log.d(this.tag, "${newAdvice.advice} ${newAdvice.rating}")
-            addAdvicePresenter.addAdvice(newAdvice)
+            if (newAdvice.advice!!.isNotEmpty()) {
+                addAdvicePresenter.addAdvice(newAdvice)
+            } else {
+                closeDialog()
+                Toast.makeText(activity, "Empty advice not saved", Toast.LENGTH_LONG).show()
+            }
         }
 
         cancel_button.setOnClickListener {

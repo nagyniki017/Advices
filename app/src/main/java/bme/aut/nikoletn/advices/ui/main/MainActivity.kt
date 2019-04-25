@@ -1,10 +1,11 @@
 package bme.aut.nikoletn.advices.ui.main
 
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import com.google.android.material.navigation.NavigationView
+import androidx.core.view.GravityCompat
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import bme.aut.nikoletn.advices.R
@@ -42,11 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onStart() {
         super.onStart()
         mainPresenter.attachScreen(this)
-        when (this.attachedFragment) {
-            "random" -> this.showRandomAdvices()
-            "saved" -> this.showSavedAdvices()
-            else -> this.showRandomAdvices()
-        }
+        this.showRandomAdvices()
     }
 
     override fun onStop() {
@@ -119,6 +116,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         this.attachedFragment = savedInstanceState?.getCharSequence("attachedFragment") as String?
+        when (this.attachedFragment) {
+            "random" -> this.showRandomAdvices()
+            "saved" -> this.showSavedAdvices()
+            else -> this.showRandomAdvices()
+        }
     }
-
 }
