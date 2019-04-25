@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
             tools:context=".ui.savedAdvices.SavedAdviceFragment"
-            tools:listitem="@layout/fragment_saved_advice"
+            tools:listitem="@layout/fragment_advice"
             android:paddingBottom="60dp"
             android:clipToPadding="false"/>
 

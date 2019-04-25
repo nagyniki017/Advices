@@ -14,4 +14,5 @@
     <string name="new_advice">New advice text</string>
     <string name="cancel">Cancel</string>
     <string name="add_advice_title">Create new advice</string>
+    <string name="create_advice">Create advice</string>
 </resources>

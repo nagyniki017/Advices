@@ -2,10 +2,7 @@ package bme.aut.nikoletn.advices.viewModel
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.*
 import bme.aut.nikoletn.advices.AppDatabase
 import bme.aut.nikoletn.advices.model.Advice
 import bme.aut.nikoletn.advices.repository.AdviceRepository
@@ -15,7 +12,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class AdvicesViewModel(application: Application): AndroidViewModel(application) {
+class AdvicesViewModel(application: Application) : AndroidViewModel(application) {
     private var parentJob = Job()
     private val coroutineContext: CoroutineContext
         get() = parentJob + Dispatchers.Main
@@ -37,7 +34,7 @@ class AdvicesViewModel(application: Application): AndroidViewModel(application) 
         return randomAdviceLiveData
     }
 
-    fun getSavedAdviceLiveData() : LiveData<List<Advice>> {
+    fun getSavedAdvices(): LiveData<List<Advice>> {
         return savedAdviceLiveData
     }
 
@@ -46,6 +43,7 @@ class AdvicesViewModel(application: Application): AndroidViewModel(application) 
         val advices: ArrayList<Advice> = ArrayList(randomAdviceLiveData.value ?: listOf())
         val adviceIdx = advices.indexOfFirst { random -> random.id == advice.id } ?: -1
         if (adviceIdx == -1) {
+            setStoredRating(advice)
             advices.add(advice)
             randomAdviceLiveData.value = advices
         }
@@ -60,12 +58,34 @@ class AdvicesViewModel(application: Application): AndroidViewModel(application) 
         }
     }
 
+    fun updateStoredAdvice(advice: Advice) {
+        setRandomRating(advice)
+        insertAdvice(advice)
+    }
+
     fun insertAdvice(advice: Advice) = scope.launch(Dispatchers.IO) {
         repository.insert(advice)
     }
 
     fun deleteAdvice(advice: Advice) = scope.launch(Dispatchers.IO) {
         repository.delete(advice)
+    }
+
+    private fun setStoredRating(randomAdvice: Advice) {
+        val storedMatching =
+            savedAdviceLiveData.value?.filter { storedAdvice -> storedAdvice.id == randomAdvice.id } ?: listOf()
+        if (storedMatching.isNotEmpty()) {
+            randomAdvice.rating = storedMatching.get(0).rating
+        }
+    }
+
+    private fun setRandomRating(storedAdvice: Advice) {
+        val advices: ArrayList<Advice> = ArrayList(randomAdviceLiveData.value ?: listOf())
+        val adviceIdx = advices.indexOfFirst { random -> random.id == storedAdvice.id } ?: -1
+        if (adviceIdx >= 0) {
+            advices[adviceIdx] = storedAdvice
+            randomAdviceLiveData.value = advices
+        }
     }
 
     override fun onCleared() {
