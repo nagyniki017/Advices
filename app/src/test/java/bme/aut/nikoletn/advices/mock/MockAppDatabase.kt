@@ -8,7 +8,7 @@ import bme.aut.nikoletn.advices.model.Advice
 
 @Database(entities = arrayOf(Advice::class), version = 1)
 abstract class MockAppDatabase : AppDatabase() {
-    override abstract fun adviceDao(): MockAdviceDao
+    abstract override fun adviceDao(): MockAdviceDao
 
     companion object {
         private var INSTANCE: MockAppDatabase? = null

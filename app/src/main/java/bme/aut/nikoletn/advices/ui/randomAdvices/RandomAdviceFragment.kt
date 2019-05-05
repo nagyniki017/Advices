@@ -88,9 +88,9 @@ class RandomAdviceFragment : Fragment(), RandomAdviceScreen {
         }
     }
 
-    override fun showAdvice(advice: Advice) {
+    override fun showAdvice(advice: Advice?) {
         // removing advice from the list if it was already in it -> placing to the end
-        advicesViewModel.addUniqueRandomAdvice(advice)
+        advicesViewModel.addUniqueRandomAdvice(advice!!)
         expectedAdvices -= 1
 
         if (expectedAdvices <= 0) {

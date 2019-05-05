@@ -13,7 +13,7 @@ class MockAdvicesApi: AdvicesApi {
     override fun getAdvice(): Call<AdviceResult> {
         val adviceResult = AdviceResult()
         val advice = Advice()
-        advice.rating = 2.5f
+        advice.id = 5
         advice.advice = "Ever tried. Ever failed. No matter. Try again. Fail again. Fail better."
         adviceResult.slip = advice
 
