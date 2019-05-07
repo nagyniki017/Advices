@@ -70,8 +70,8 @@ class SavedAdviceFragment : Fragment(), SavedAdviceScreen {
         }
     }
 
-    override fun addNewAdvice(advice: Advice) {
-        advicesViewModel.insertAdvice(advice)
+    override fun addNewAdvice(advice: Advice?) {
+        advicesViewModel.insertAdvice(advice!!)
     }
 
     companion object {

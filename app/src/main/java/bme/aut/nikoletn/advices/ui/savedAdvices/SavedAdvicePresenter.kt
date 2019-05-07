@@ -27,7 +27,7 @@ class SavedAdvicePresenter @Inject constructor(
     fun onEventMainThread(event: AddAdviceEvent) {
         if (screen != null) {
             if (event.advice != null) {
-                screen?.addNewAdvice(event.advice!!)
+                screen?.addNewAdvice(event.advice)
             }
         }
     }
