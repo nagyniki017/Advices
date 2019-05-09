@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'io.fabric'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -35,6 +37,12 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/atomicfu.kotlin_module'
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -48,30 +56,44 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    testImplementation 'org.robolectric:robolectric:4.2'
+    testImplementation  "org.mockito:mockito-core:2.23.4"
 
     implementation 'com.google.dagger:dagger:2.21'
     kapt 'com.google.dagger:dagger-compiler:2.21'
+    kaptTest 'com.google.dagger:dagger-compiler:2.21'
     api 'javax.annotation:jsr250-api:1.0'
+
+    testImplementation 'com.google.dagger:dagger:2.21'
+    testImplementation 'javax.annotation:jsr250-api:1.0'
+
+    androidTestImplementation 'com.google.dagger:dagger:2.21'
+    kaptAndroidTest 'com.google.dagger:dagger-compiler:2.21'
+    androidTestImplementation 'javax.annotation:jsr250-api:1.0'
+
     implementation "org.greenrobot:eventbus:3.1.1"
     implementation "com.github.bumptech.glide:glide:4.8.0"
     implementation "com.squareup.retrofit2:retrofit:2.5.0"
     implementation "com.squareup.retrofit2:converter-gson:2.5.0"
     implementation "com.google.code.gson:gson:2.8.5"
     implementation "com.squareup.okhttp3:logging-interceptor:3.12.1"
-
     implementation "com.github.nisrulz:recyclerviewhelper:x1.0.0"
 
     def room_version = "2.1.0-alpha06"
-
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     def lifecycle_version = "2.0.0"
-
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
 
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0"
+
+    implementation 'com.google.android.gms:play-services-analytics:10.2.4'
+
+    implementation('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {
+        transitive = true;
+    }
 }

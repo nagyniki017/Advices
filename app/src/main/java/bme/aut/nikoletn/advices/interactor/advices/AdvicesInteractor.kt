@@ -30,9 +30,8 @@ class AdvicesInteractor @Inject constructor(private var advicesApi: AdvicesApi) 
     }
 
     fun addAdvice(newAdvice: Advice) {
-        val event = AddAdviceEvent();
+        val event = AddAdviceEvent()
         try {
-            // TODO: API call
             event.advice = newAdvice
         } catch (e: Exception) {
             event.throwable = e
