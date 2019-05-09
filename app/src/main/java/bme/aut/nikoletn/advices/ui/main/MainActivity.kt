@@ -15,6 +15,9 @@ import bme.aut.nikoletn.advices.ui.savedAdvices.SavedAdviceFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainScreen {
     @Inject
@@ -24,6 +27,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         injector.inject(this)
@@ -70,7 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.action_settings -> return true
+            R.id.action_crash -> throw RuntimeException("This is a forces crash")
             else -> return super.onOptionsItemSelected(item)
         }
     }
